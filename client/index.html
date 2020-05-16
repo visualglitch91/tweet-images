@@ -1,13 +1,77 @@
 <!DOCTYPE html>
 <html>
-  <head></head>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        padding: 16px 0;
+      }
+
+      form {
+        display: flex;
+        align-items: center;
+      }
+
+      form .input-field {
+        flex: 1;
+        margin-right: 16px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        margin: -16px;
+      }
+
+      .grid .card {
+        margin: 16px;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: auto auto;
+        }
+      }
+
+      @media (max-width: 600px) {
+        form {
+          width: 100%;
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        form .input-field {
+          margin-right: 0;
+        }
+
+        form button {
+          margin-bottom: 16px;
+        }
+
+        .grid {
+          display: block;
+        }
+      }
+    </style>
+  </head>
   <body>
-    <form>
-      <input name="url" />
-      <button>carregar images</button>
-    </form>
-    <br />
-    <div id="results"></div>
+    <div class="container">
+      <form>
+        <div class="input-field">
+          <input name="url" placeholder="Insira a URL do tweet aqui..." />
+          <label for="url" class="active">URL</label>
+        </div>
+        <button class="waves-effect waves-light btn purple lighten-3">
+          carregar imagens
+        </button>
+      </form>
+      <div id="results"></div>
+    </div>
     <script src="main.js"></script>
   </body>
 </html>

@@ -1,46 +1,42 @@
-const form = document.querySelector("form");
-const results = document.querySelector("#results");
-let loading = false;
+(() => {
+  const form = document.querySelector("form");
+  const url = new URLSearchParams(window.location.search).get("url");
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+  if (url) {
+    setTimeout(() => {
+      form.elements[0].value = url;
+    }, 1);
 
-  const data = Object.fromEntries(new FormData(form));
+    results.innerHTML = "<center>carregando...</center>";
 
-  if (!data.url && loading) {
-    return;
-  }
-
-  loading = true;
-  results.innerHTML = "carregando...";
-
-  fetch("./get-images", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then(
-      (images) => {
-        results.innerHTML = images
-          .map(
-            (image) => `
-            <div>
-              <img src="${image.src}" style="
-                max-width: 300px;
-                max-height: 300px;
-              " />
-              <div>${image.alt || "a imagem não possui descrição"}</div>
-            </div>
+    fetch("./get-images", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    })
+      .then((response) => response.json())
+      .then(
+        (images) => {
+          let html = images
+            .map(
+              (image) => `
+              <div class="card">
+                <div class="card-image">
+                  <img src="${image.src}" />
+                </div>
+                <div class="card-content">
+                ${image.alt || "a imagem não possui descrição"}
+                </div>
+              </div>
           `
-          )
-          .join("<hr />");
-      },
-      () => {
-        results.innerHTML = "algum erro aconteceu :(";
-      }
-    )
-    .finally(() => {
-      loading = false;
-    });
-});
+            )
+            .join("\n");
+
+          results.innerHTML = `<div class="grid">${html}</div>`;
+        },
+        () => {
+          results.innerHTML = "<center>algum erro aconteceu :(</center>";
+        }
+      );
+  }
+})();
