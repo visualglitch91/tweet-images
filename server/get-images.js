@@ -30,10 +30,12 @@ module.exports = async (req, res) => {
       include_ext_alt_text: true,
     });
 
-    const images = tweet.data.extended_entities.media.map((image) => ({
-      src: image.media_url,
-      alt: image.ext_alt_text,
-    }));
+    const images = tweet.data.extended_entities.media
+      .filter((media) => media.type !== "video")
+      .map((image) => ({
+        src: image.media_url,
+        alt: image.ext_alt_text,
+      }));
 
     return res.send(JSON.stringify(images, null, 2));
   } catch (err) {

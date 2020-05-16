@@ -17,9 +17,12 @@
       .then((response) => response.json())
       .then(
         (images) => {
-          let html = images
-            .map(
-              (image) => `
+          if (images.length === 0) {
+            results.innerHTML = "<center>nenhuma image encontrada</center>";
+          } else {
+            let html = images
+              .map(
+                (image) => `
               <div class="card">
                 <div class="card-image">
                   <img src="${image.src}" />
@@ -29,10 +32,11 @@
                 </div>
               </div>
           `
-            )
-            .join("\n");
+              )
+              .join("\n");
 
-          results.innerHTML = `<div class="grid">${html}</div>`;
+            results.innerHTML = `<div class="grid">${html}</div>`;
+          }
         },
         () => {
           results.innerHTML = "<center>algum erro aconteceu :(</center>";
