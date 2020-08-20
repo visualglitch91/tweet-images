@@ -31,8 +31,6 @@ module.exports = async (req, res) => {
       tweet_mode: "extended",
     });
 
-    console.log(JSON.stringify(tweet.text, null, 2));
-
     const images = tweet.extended_entities.media
       .filter((media) => media.type !== "video")
       .map((image) => ({
