@@ -25,12 +25,15 @@ module.exports = async (req, res) => {
       return res.sendStatus(400);
     }
 
-    const tweet = await twit.get(`statuses/show`, {
+    const { data: tweet } = await twit.get(`statuses/show`, {
       id,
       include_ext_alt_text: true,
+      tweet_mode: "extended",
     });
 
-    const images = tweet.data.extended_entities.media
+    console.log(JSON.stringify(tweet.text, null, 2));
+
+    const images = tweet.extended_entities.media
       .filter((media) => media.type !== "video")
       .map((image) => ({
         src: image.media_url,
